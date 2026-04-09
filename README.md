@@ -45,25 +45,44 @@ If you prefer a local offline environment, the design can be simulated using any
 iverilog -o sim.vvp rtl/swp_design.v sim/swp_testbench.v
 vvp sim.vvp
 ```
-###4. Hardware Synthesis (Xilinx Vivado)
-Synthesis and physical extraction metrics were performed using Xilinx Vivado 2025.2 targeting the Zynq-7000 (xc7z020) FPGA family. To reproduce the area and power numbers:
-1. Create a new Vivado RTL project targeting the xc7k70tfbv676-1 device.
-2. Import the files from /rtl/.
-3. Set either baseline_mac.v or swp_mac.v as the Top Module.
-4. Run Synthesis and generate the Report Utilization and Report Power metrics.
+### 4. Hardware Synthesis (Xilinx Vivado)
+Synthesis and physical extraction metrics were performed using **Xilinx Vivado 2025.2** targeting the Zynq-7000 FPGA family. To reproduce the area and power numbers:
 
-##Results & Metrics
-The proposed SWP architecture was evaluated against a standard INT8 baseline. By forcing strict LUT-based synthesis (use_dsp = "no"), the following gate-level hardware trade-offs were extracted:
-Metric               Baseline (Standard INT8)             Proposed SWP (INT8 / 2x INT4)                  Hardware Overhead
-Area (Slice LUTs)            60                                     100                                       +66%
-Internal Power             1.04 W                                  1.54 W                                     +48%
-Peak Throughput              1x                               2x (in INT4 mode)                               +100%
+1. Create a new Vivado RTL project targeting the `xc7k70tfbv676-1` device.
+2. Import the source files from the `/rtl/` directory.
+3. Set either `baseline_mac.v` or `swp_mac.v` as the **Top Module**.
+4. Run **Synthesis** and generate the *Report Utilization* and *Report Power* metrics.
 
-####Architectural Advantage: While the isolation logic and multiplexing incur a 66% LUT overhead, the SWP MAC inherently executes two parallel INT4 math operations per clock cycle in Mode 1. For NMS-free architectures like YOLO26—which eliminate heavy DFL/Softmax blocks—spending 40 additional LUTs to achieve a 100% throughput increase is a highly efficient silicon trade-off for edge inference.
+---
 
+## Results & Metrics
+The proposed SWP architecture was evaluated against a standard INT8 baseline. By forcing strict LUT-based synthesis (`use_dsp = "no"`), the following gate-level hardware trade-offs were extracted:
+
+| Metric | Baseline (Standard INT8) | Proposed SWP (INT8 / 2x INT4) | Hardware Overhead |
+| :--- | :---: | :---: | :---: |
+| **Area (Slice LUTs)** | 60 | 100 | **+66%** |
+| **Internal Power** | 1.04 W | 1.54 W | **+48%** |
+| **Peak Throughput** | 1x | 2x (in INT4 mode) | **+100%** |
+
+#### Architectural Advantage
+While the isolation logic and multiplexing incur a 66% LUT overhead, the SWP MAC inherently executes two parallel INT4 math operations per clock cycle in Mode 1. For NMS-free architectures like **YOLO26**—which eliminate heavy DFL/Softmax blocks—spending 40 additional LUTs to achieve a **100% throughput increase** is a highly efficient silicon trade-off for edge inference.
+
+---
+
+## Citation
+If you use this architecture or verification environment in your research, please cite our work:
+
+```bibtex
 @inproceedings{akul2026yolo26swp,
   title={A Sub-Word Parallel MAC Architecture for NMS-Free YOLO26 Edge Inference},
   author={Akul},
   booktitle={Pending IEEE Conference Submission},
   year={2026}
 }
+```
+### Pro-Tips for your GitHub:
+* **The Dividers:** I added `---` lines. These create thin horizontal separators that make the page much easier to read.
+* **Bolding:** I used `**` around key numbers (like +100%) to make sure a recruiter or reviewer's eyes go straight to your best results.
+* **Alignment:** The `:---:` in the table code ensures your numbers are centered in their columns.
+
+Now that your documentation is finished, are we ready to move on to drafting the **Research Abstract** for your conference submission?
