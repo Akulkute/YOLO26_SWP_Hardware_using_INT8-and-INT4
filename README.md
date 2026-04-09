@@ -29,3 +29,12 @@ This project was developed over a 21-day Silicon Sprint as the hardware foundati
 Navigate to the `/python_model` directory and run the vector generation script to create the expected outputs for both INT8 and INT4 modes.
 ```bash
 python generate_vectors.py
+```
+
+### 2. Quick Web Simulation (EDA Playground)
+Verify the RTL logic entirely in your browser without installing a local toolchain:
+1. Go to [EDA Playground](https://edaplayground.com/) and set the simulator to **Icarus Verilog 0.9.7** (Check "Open EPWave after run").
+2. Paste `/rtl/baseline_mac.v` into the **Design** window.
+3. Paste `/sim/tb_baseline.v` into the **Testbench** window.
+4. Upload `test_vectors.txt` using the **Add file** menu. 
+5. Click **Run** to simulate the hardware and view the output waveforms.
